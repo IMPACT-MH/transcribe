@@ -1,3 +1,25 @@
+# 🎙️ AI Transcription Tool Documentation
+
+## 🛠️ Building the Environment
+
+### Prerequisites
+- Python 3.9 or higher
+- pip package manager
+
+### Installation Steps
+
+1. **Create and activate a virtual environment**:
+```bash
+python -m venv env
+source env/bin/activate  # On Unix/macOS
+.\env\Scripts\activate   # On Windows
+```
+
+2. **Install all required packages**:
+```bash
+pip install torch torchaudio faster-whisper pydub tqdm
+```
+
 ## 🎮 Command Options
 
 ### Basic Command Structure
@@ -6,7 +28,6 @@ transcribe <audio_file> [options]
 ```
 
 ### Available Options
-
 | Option | Description | Values | Default |
 |--------|-------------|---------|---------|
 | `-m, --model` | Whisper model size | `tiny`, `base`, `small`, `medium`, `large-v2` | `base` |
@@ -23,7 +44,6 @@ transcribe <audio_file> [options]
 - `large-v2`: Highest accuracy, slowest (best for production)
 
 ### Examples
-
 1. **Basic transcription** (uses base model):
 ```bash
 transcribe audio_file.m4a
@@ -54,15 +74,15 @@ transcribe audio_file.m4a -l en
 transcribe audio_file.m4a -m medium -f json -l fr
 ```
 
-### Output Formats
+## 📝 Output Formats
 
-#### TXT Format (default)
+### TXT Format (default)
 ```
 [00:00:00.000] First segment of transcription
 [00:00:05.230] Next segment of transcription
 ```
 
-#### JSON Format
+### JSON Format
 ```json
 {
   "segments": [
@@ -80,19 +100,7 @@ transcribe audio_file.m4a -m medium -f json -l fr
 }
 ```
 
-### Performance Notes
-
-- Model speed (fastest to slowest): tiny → base → small → medium → large-v2
-- Each 10-minute chunk is processed sequentially
-- Time estimates per chunk:
-  - `tiny`: ~1-2 minutes
-  - `base`: ~2-3 minutes
-  - `large-v2`: ~5-7 minutes
-- Metal acceleration is used when available on Apple Silicon
-
-## 🖥️ Hardware Acceleration
-
-This package supports multiple hardware acceleration options:
+## ⚡ Hardware Acceleration
 
 ### NVIDIA GPUs (Windows/Linux)
 - Uses CUDA for GPU acceleration
@@ -109,11 +117,18 @@ This package supports multiple hardware acceleration options:
 - Uses int8 quantization for efficiency
 - Works on any system
 
-The script automatically detects the best available hardware and configures itself accordingly.
+## ⏱️ Performance Notes
+- Model speed (fastest to slowest): tiny → base → small → medium → large-v2
+- Each 10-minute chunk is processed sequentially
+- Time estimates per chunk:
+  - `tiny`: ~1-2 minutes
+  - `base`: ~2-3 minutes
+  - `large-v2`: ~5-7 minutes
+- Metal acceleration is used when available on Apple Silicon
 
-## 🛠️ System Requirements
+## 💻 System Requirements
 
-Any of the following:
+### Hardware Requirements (any of the following):
 - NVIDIA GPU with CUDA support (Windows/Linux)
 - Apple Silicon Mac (M1/M2/M3)
 - Any modern CPU (fallback option)
@@ -124,21 +139,3 @@ Any of the following:
 - faster-whisper
 - pydub (for audio processing)
 - tqdm (for progress bars)
-
-For NVIDIA GPU support:
-```bash
-# Install PyTorch with CUDA support
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-For Apple Silicon:
-```bash
-# Install PyTorch with Metal support
-pip3 install torch torchvision torchaudio
-```
-
-For CPU only:
-```bash
-# Install PyTorch CPU version
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-```
