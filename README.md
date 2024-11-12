@@ -16,10 +16,10 @@ brew install python@3.11
 2. **Create and activate virtual environment**:
 ```bash
 # Create a new virtual environment with Python 3.11 specifically
-python3.11 -m venv env
+python3.11 -m venv .venv
 
 # Activate the environment
-source env/bin/activate
+source .venv/bin/activate
 ```
 
 3. **Update pip**:
@@ -50,11 +50,11 @@ sudo apt update && sudo apt install ffmpeg python3.11 python3.11-venv
 choco install ffmpeg python311
 
 # Create and activate environment
-python3.11 -m venv env
+python3.11 -m venv .venv
 # Linux:
-source env/bin/activate
+source .venv/bin/activate
 # Windows:
-.\env\Scripts\activate
+.\.venv\Scripts\activate
 
 # Install packages with CUDA support
 pip install --upgrade pip
