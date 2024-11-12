@@ -1,4 +1,4 @@
-# 🎙️ AI Transcription Tool Documentation
+# 🎙️ AI Transcription Package
 
 ## 🛠️ Installation 
 
