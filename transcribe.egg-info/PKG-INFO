@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: transcribe
+Version: 0.1.0
+Summary: A tool for transcribing audio files using Whisper.
+Home-page: https://github.com/IMPACT-MH/transcribe
+Author: Josh Kenney
+Author-email: joshua.kenney@yale.edu
+Requires-Dist: torch
+Requires-Dist: faster-whisper
+Requires-Dist: pydub
+Requires-Dist: tqdm

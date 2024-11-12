@@ -1,0 +1,8 @@
+*.m4a
+*.txt
+!requirements.txt
+env/
+venv/
+*.pyc
+*.wav
+arm/
