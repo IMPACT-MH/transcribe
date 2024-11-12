@@ -1,4 +1,32 @@
-# 🎙️ AI Transcription Package
+# 🎙️ Whisper Transcription CLI
+
+Fast, accurate audio transcription powered by OpenAI's Whisper model, optimized for Apple Silicon and NVIDIA GPUs.
+
+## ✨ Features
+- 🚀 Hardware-accelerated transcription using Metal (Apple Silicon) or CUDA (NVIDIA)
+- 🎯 Multiple accuracy levels from ultra-fast to production-quality
+- 🌍 Supports 100+ languages with auto-detection
+- ⚡ Processes 10-minute audio in 1-7 minutes (model dependent)
+- 📝 Flexible output formats (TXT/JSON) with timestamps
+
+## 🚀 Quick Start (macOS)
+```bash
+# Install prerequisites
+brew install ffmpeg python@3.11
+
+# Setup environment
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+
+# Install package
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
+pip install faster-whisper pydub tqdm
+pip install -e .
+
+# Run transcription
+transcribe audio_file.m4a
+```
 
 ## 🛠️ Installation 
 
@@ -63,69 +91,54 @@ pip install faster-whisper pydub tqdm
 pip install -e .
 ```
 
-## 🎮 Command Options
+## 📚 Usage Guide
 
-### Basic Command Structure
+### Command Structure
 ```bash
 transcribe <audio_file> [options]
 ```
+
+### Model Selection
+Choose the model that best fits your needs:
+
+| Model    | Speed      | Accuracy   | Use Case                    |
+|----------|------------|------------|----------------------------|
+| `tiny`   | ⚡⚡⚡⚡⚡ | ⭐        | Quick testing/prototyping   |
+| `base`   | ⚡⚡⚡⚡  | ⭐⭐      | Development/general use     |
+| `small`  | ⚡⚡⚡    | ⭐⭐⭐    | Better accuracy needed      |
+| `medium` | ⚡⚡      | ⭐⭐⭐⭐  | High accuracy required      |
+| `large-v2`| ⚡        | ⭐⭐⭐⭐⭐| Production/Critical content |
 
 ### Available Options
 | Option | Description | Values | Default |
 |--------|-------------|---------|---------|
 | `-m, --model` | Whisper model size | `tiny`, `base`, `small`, `medium`, `large-v2` | `base` |
 | `-f, --format` | Output format | `txt`, `json` | `txt` |
-| `-l, --language` | Language code (optional) | e.g., `en`, `fr`, `de`, etc. | auto-detect |
+| `-l, --language` | Language code | `en`, `fr`, `de`, etc. | auto-detect |
 | `--list-models` | Show available models | - | - |
 | `-h, --help` | Show help message | - | - |
 
-### Model Descriptions
-- `tiny`: Fastest, least accurate (good for testing)
-- `base`: Good balance of speed and accuracy
-- `small`: Better accuracy, slower than base
-- `medium`: High accuracy, significantly slower
-- `large-v2`: Highest accuracy, slowest (best for production)
-
-### Examples
-1. **Basic transcription** (uses base model):
+### Example Commands
 ```bash
-transcribe audio_file.m4a
-```
+# Basic usage (fastest)
+transcribe podcast.mp3 -m tiny
 
-2. **Fast transcription** (for testing):
-```bash
-transcribe audio_file.m4a -m tiny
-```
+# High accuracy with timestamps
+transcribe interview.wav -m large-v2 -f json
 
-3. **High accuracy** (slower):
-```bash
-transcribe audio_file.m4a -m large-v2
-```
-
-4. **JSON output with timestamps**:
-```bash
-transcribe audio_file.m4a -f json
-```
-
-5. **Specific language**:
-```bash
-transcribe audio_file.m4a -l en
-```
-
-6. **Combined options**:
-```bash
-transcribe audio_file.m4a -m medium -f json -l fr
+# Specific language with medium model
+transcribe speech.m4a -m medium -l fr
 ```
 
 ## 📝 Output Formats
 
-### TXT Format (default)
+### Text Output (Default)
 ```
 [00:00:00.000] First segment of transcription
 [00:00:05.230] Next segment of transcription
 ```
 
-### JSON Format
+### JSON Output
 ```json
 {
   "segments": [
@@ -143,43 +156,30 @@ transcribe audio_file.m4a -m medium -f json -l fr
 }
 ```
 
-## ⚡ Hardware Acceleration
+## ⚡ Performance
 
-### NVIDIA GPUs (Windows/Linux)
-- Uses CUDA for GPU acceleration
-- Supports float16 computation
-- Best performance on NVIDIA graphics cards
+### Hardware Acceleration
+- **Apple Silicon**: Uses Metal Performance Shaders (MPS) for optimal speed
+- **NVIDIA GPUs**: CUDA acceleration with float16 computation
+- **CPU**: Optimized fallback with int8 quantization
 
-### Apple Silicon (macOS)
-- Uses MPS (Metal Performance Shaders)
-- Optimized for M1/M2/M3 chips
-- Uses float32 computation
-
-### CPU (All Platforms)
-- Falls back to CPU if no GPU is available
-- Uses int8 quantization for efficiency
-- Works on any system
-
-## ⏱️ Performance Notes
-- Model speed (fastest to slowest): tiny → base → small → medium → large-v2
-- Each 10-minute chunk is processed sequentially
-- Time estimates per chunk:
-  - `tiny`: ~1-2 minutes
-  - `base`: ~2-3 minutes
-  - `large-v2`: ~5-7 minutes
-- Metal acceleration is used when available on Apple Silicon
+### Processing Speed (10min audio)
+| Model     | Time  | Speed vs Real-time |
+|-----------|-------|-------------------|
+| tiny      | 1-2m  | 5-10x            |
+| base      | 2-3m  | 3-5x             |
+| large-v2  | 5-7m  | 1.5-2x           |
 
 ## 💻 System Requirements
 
-### Hardware Requirements (any of the following):
-- NVIDIA GPU with CUDA support (Windows/Linux)
+### Hardware (One of)
 - Apple Silicon Mac (M1/M2/M3)
-- Any modern CPU (fallback option)
+- NVIDIA GPU with CUDA support
+- Modern CPU (fallback)
 
-### Software Requirements
+### Software
 - Python 3.11
 - ffmpeg
 - PyTorch 2.0+
 - faster-whisper
-- pydub (for audio processing)
-- tqdm (for progress bars)
+- pydub, tqdm
