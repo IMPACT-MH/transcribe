@@ -1,23 +1,66 @@
 # 🎙️ AI Transcription Tool Documentation
 
-## 🛠️ Building the Environment
+## 🛠️ Installation 
 
-### Prerequisites
-- Python 3.9 or higher
-- pip package manager
+### macOS (Apple Silicon)
 
-### Installation Steps
-
-1. **Create and activate a virtual environment**:
+1. **Install required tools**:
 ```bash
-python3 -m venv env
-source env/bin/activate  # On Unix/macOS
-.\env\Scripts\activate   # On Windows
+# Install ffmpeg if you don't have it
+brew install ffmpeg
+
+# Install Python 3.11
+brew install python@3.11
 ```
 
-2. **Install all required packages**:
+2. **Create and activate virtual environment**:
 ```bash
-pip install torch torchaudio faster-whisper pydub tqdm
+# Create a new virtual environment with Python 3.11 specifically
+python3.11 -m venv env
+
+# Activate the environment
+source env/bin/activate
+```
+
+3. **Update pip**:
+```bash
+pip install --upgrade pip
+```
+
+4. **Install PyTorch with Apple Silicon support**:
+```bash
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
+```
+
+5. **Install faster-whisper and dependencies**:
+```bash
+pip install faster-whisper pydub tqdm
+```
+
+6. **Install the package in editable mode**:
+```bash
+pip install -e .
+```
+
+### Windows/Linux (NVIDIA GPU)
+```bash
+# Ubuntu/Debian
+sudo apt update && sudo apt install ffmpeg python3.11 python3.11-venv
+# OR Windows (using chocolatey)
+choco install ffmpeg python311
+
+# Create and activate environment
+python3.11 -m venv env
+# Linux:
+source env/bin/activate
+# Windows:
+.\env\Scripts\activate
+
+# Install packages with CUDA support
+pip install --upgrade pip
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install faster-whisper pydub tqdm
+pip install -e .
 ```
 
 ## 🎮 Command Options
@@ -134,7 +177,8 @@ transcribe audio_file.m4a -m medium -f json -l fr
 - Any modern CPU (fallback option)
 
 ### Software Requirements
-- Python 3.9+
+- Python 3.11
+- ffmpeg
 - PyTorch 2.0+
 - faster-whisper
 - pydub (for audio processing)
