@@ -19,12 +19,14 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 
-# Install package
+# Install dependencies
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
 pip install faster-whisper pydub tqdm
+
+# Intall package
 pip install -e .
 
-# Review Settings
+# Review system settings
 python3 -c "import torch; import platform; print(f'PyTorch: {torch.__version__}'); print(f'Architecture: {platform.machine()}'); print(f'MPS available: {torch.backends.mps.is_available()}')"
 
 # Run transcription
